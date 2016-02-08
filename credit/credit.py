@@ -27,7 +27,7 @@ class lineOfCredit(object):
         self.balance = 0
         self.interest = 0
         self.carryover = 0
-        self.day = 1
+        self.day = 0
         self.transactions = []
         self.history = []
 
