@@ -69,6 +69,9 @@ class lineOfCredit(object):
         transaction = (self.day, withdrawl, self.balance)
         self.transactions.append(transaction)
 
+    def creditRemaining(self):
+        print "You remaining credit is: " + str(self.credit - (self.balance + self.interest))
+
     def truncate(self, number):
         return int(round(number, 2)*100) / 100.0
 
