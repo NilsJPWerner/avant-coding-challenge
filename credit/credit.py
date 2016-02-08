@@ -5,7 +5,7 @@ class lineOfCredit(object):
     """
     Line of credit class: Simulates a line of credit where you have an apr
     a line of credit and you can make payments and withdrawls. A history of your
-    transactions are kept, interest is calculated at the end of each thirty 
+    transactions are kept, interest is calculated at the end of each thirty
     day period
     Attributes:
         apr             Apr for this loc
@@ -32,10 +32,10 @@ class lineOfCredit(object):
         self.history = []
 
     def progressDays(self, days):
-    """
-    Progresses days of the loc simulation. If the function reaches or passes a
-    period end, it will run periodEnd.
-    """
+        """
+        Progresses days of the loc simulation. If the function reaches or passes a
+        period end, it will run periodEnd
+        """
         if (days <= 0):
             raise ValueError("You're days cannot be negative or zero")
         for i in range(days):
@@ -44,9 +44,9 @@ class lineOfCredit(object):
                 self.periodEnd()
 
     def currentDay(self):
-        """ 
+        """
         Prints the current day and the remaining days in the period
-        Note:   The remaining days are from the current day to the start of 
+        Note:   The remaining days are from the current day to the start of
                 the next period
         """
         print "Current day: " + str(self.day)
@@ -55,9 +55,9 @@ class lineOfCredit(object):
     def makePayment(self, payment):
         """
         Make payments on the line of credit.
-        Assumptions:    Any payments go to paying off interest before paying 
+        Assumptions:    Any payments go to paying off interest before paying
                         the balance
-                        You can't pay more than your total outstanding dues   
+                        You can't pay more than your total outstanding dues
         """
         if (payment < 0):
             raise ValueError("You're payment cannot be negative")
@@ -74,15 +74,15 @@ class lineOfCredit(object):
 
     def makeWithdrawl(self, withdrawl):
         """
-        Draws money from the credit line. Will throw a ValueError if the 
+        Draws money from the credit line. Will throw a ValueError if the
         withdrawl is more than the available credit
-        Assumption: That the current interest counts against the available 
+        Assumption: That the current interest counts against the available
                     credit
         """
         if (withdrawl < 0):
             raise ValueError("You're withdrwal cannot be negative")
         elif (withdrawl > self.credit - (self.balance + self.interest)):
-            raise ValueError("You cannot withdraw that much. It would exceed\ 
+            raise ValueError("You cannot withdraw that much. It would exceed\
                 your available credit")
         else:
             self.balance += withdrawl
@@ -92,16 +92,16 @@ class lineOfCredit(object):
     def creditRemaining(self):
         """
         Prints the remaining credit on the loc
-        Note:   Negative remaining credit is possible if interest accumulates 
+        Note:   Negative remaining credit is possible if interest accumulates
                 too much
         """
-        print "You remaining credit is: " + str(self.credit - (self.balance + 
+        print "You remaining credit is: " + str(self.credit - (self.balance +
             self.interest))
 
     def truncate(self, number):
         """
         Rounds the input number to the nearest cent and then truncates it to
-        two decimal places.     
+        two decimal places.
         Note:   It might be better to ceiling it rather than round so that the
                 bank never loses money, but I'm not sure if thats appropriate
         """
@@ -109,11 +109,11 @@ class lineOfCredit(object):
 
     def periodEnd(self):
         """
-        Calculates interest at the end of the 30 day period and pushes 
-        transactions to history. It also carries over any remaining balance 
+        Calculates interest at the end of the 30 day period and pushes
+        transactions to history. It also carries over any remaining balance
         to the next month through the carryover variable so that interest can be
         charged for then next month
-        Assumption: Interest is not added to the balance since it is not 
+        Assumption: Interest is not added to the balance since it is not
                     compounded
         """
         period_interest = 0
@@ -139,18 +139,11 @@ class lineOfCredit(object):
             self.carryover = self.balance
 
         # print "Interest accrued this month: " + str(period_interest)
-        # print "Current payment due: " + str(self.balance + 
+        # print "Current payment due: " + str(self.balance +
         #    self.interestinterest)
 
     def paymentDue(self):
-        """ 
+        """
         Prints the current payment due (interest and balance)
         """
         print "Current payment due: " + str(self.interest + self.balance)
-
-
-
-
-
-
-
