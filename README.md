@@ -26,7 +26,7 @@ This challenge is written in python 2.7
 2. Import the line of credit class with `from credit import lineOfCredit`
 3. Create a new instance with `loc = lineOfCredit(apr, credit)` with the chosen values for apr and credit.
  
-- To run the tests type python credit_test -v in terminal
+To run the tests type python credit_test -v in terminal
 
 ###Supported operations:
 - `loc.makeWithdrawl(100)` - Draws the chosen amount from the account.
@@ -39,4 +39,6 @@ This challenge is written in python 2.7
 ###Notes and assumptions
 - I assume that interest is calculated and payment is due on the first day of the next billing period.
 - I also assume that if two or more transactions are made on the same day, that interest only accumulates on the last principal balance that passes over into the next day.
-- I made my first day be 0 in order for the example scenarios to work (since there needs to be 15 days from the first day to day 15 for the interest calculation to be correct).
+- I made my first day be 0 in order for the example scenarios to work (since there needs to be 15 days from the first day to day 15 for the interest calculation to be correct). Thus the next period starts on day 30 which is also when interest is calculated. 
+- Since compound interest is not calculated I keep all accrued interest in a seperate variable from the balance.
+- Any remaining balance at the end of a period is carried over to the next period in a variable so that the transactions of the period ending can be flushed to the transaction history.
