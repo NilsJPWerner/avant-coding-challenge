@@ -37,11 +37,14 @@ class lineOfCredit(object):
         period end, it will run periodEnd
         """
         if (days <= 0):
-            raise ValueError("You're days cannot be negative or zero")
-        for i in range(days):
-            self.day += 1
-            if (self.day % 30 == 0):
-                self.periodEnd()
+            raise ValueError("Your days cannot be negative or zero")
+        elif (not isinstance(days, (int, long))):
+            raise ValueError("Your days must be integers")
+        else:
+            for i in range(days):
+                self.day += 1
+                if (self.day % 30 == 0):
+                    self.periodEnd()
 
     def currentDay(self):
         """
@@ -55,22 +58,31 @@ class lineOfCredit(object):
     def makePayment(self, payment):
         """
         Make payments on the line of credit.
-        Assumptions:    Any payments go to paying off interest before paying
-                        the balance
+        Assumptions:    Any payments go to paying off balance before paying
+                        the interest
                         You can't pay more than your total outstanding dues
         """
         if (payment < 0):
             raise ValueError("You're payment cannot be negative")
+        elif (self.truncate(payment) != payment):
+            raise ValueError("You cannot pay fractions of cents")
         elif (payment > self.balance + self.interest):
             raise ValueError("You're payment is higher than your current\
              balance and interest")
-        elif (payment > self.interest):
-            self.balance -= (payment - self.interest)
-            self.interest = 0
+        elif (payment >= self.balance):
+            self.balance -= (payment - self.balance)
+            self.balance = 0
         else:
-            self.interest -= payment
+            self.balance -= payment
         transaction = (self.day, payment*-1, self.balance)
         self.transactions.append(transaction)
+
+    def makeFullPayment(self):
+        """
+        Pays of the full payment due including interest
+        """
+        self.balance = 0
+        self.interest = 0
 
     def makeWithdrawl(self, withdrawl):
         """
@@ -81,6 +93,8 @@ class lineOfCredit(object):
         """
         if (withdrawl < 0):
             raise ValueError("You're withdrwal cannot be negative")
+        elif (self.truncate(withdrawl) != withdrawl):
+            raise ValueError("You cannot withdraw fractions of cents")
         elif (withdrawl > self.credit - (self.balance + self.interest)):
             raise ValueError("You cannot withdraw that much. It would exceed\
                 your available credit")
@@ -134,6 +148,10 @@ class lineOfCredit(object):
 
         self.interest += period_interest
         self.history = self.history + self.transactions
+        self.transactions = []
+
+        self.interest = self.truncate(self.interest)
+        self.balance = self.truncate(self.balance)
 
         if (self.balance > 0):
             self.carryover = self.balance
@@ -147,3 +165,16 @@ class lineOfCredit(object):
         Prints the current payment due (interest and balance)
         """
         print "Current payment due: " + str(self.interest + self.balance)
+
+    def getPastTransaction(self, day):
+        """
+        Prints array of any transactions that happened on chosen day
+        """
+        history = (self.history + self.transactions)
+        transactions = filter(lambda x: x[0] == day, history)
+        print "Transactions on Day: " + str(day)
+        print "-------"
+        for trans in transactions:
+            print "Transaction: " + str(trans[1])
+            print "Balance after transaction: " + str(trans[2])
+            print "-------"
