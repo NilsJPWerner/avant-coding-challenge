@@ -19,16 +19,24 @@ Filesystem?
 
 ## Line of Credit
 
+This challenge is written in python 2.7
+
 ###Instructions
-1. Open a python shell in the credit directory with 'python'
-2. Import the line of credit class with 'from credit import lineOfCredit'
-3. Create a new instance with 'loc = lineOfCredit(apr, credit)' with the chosen values for apr and credit.
+1. Open a python shell in the credit directory with `python`
+2. Import the line of credit class with `from credit import lineOfCredit`
+3. Create a new instance with `loc = lineOfCredit(apr, credit)` with the chosen values for apr and credit.
+ 
+- To run the tests type python credit_test -v in terminal
 
 ###Supported operations:
-- 'loc.makeWithdrawl(100)' - Draws the chosen amount from the account.
-- 'loc.makePayment(100)' - Pays the chosen amount into the account. Note that interest will be paid off before the balance.
-- 'loc.progressDays(10)' - Progresses days by the chosen number. If the simulation reaches the end of a period, interest calculations are automatically calculated and the transactions of that period are pushed to the account history.
-- 'loc.currentDay()' - Prints the current day of the simulation and the remaining days before the end of the period.
-- 'loc.paymentDue()' - Prints the current payment due (balance and interest).
+- `loc.makeWithdrawl(100)` - Draws the chosen amount from the account.
+- `loc.makePayment(100)` - Pays the chosen amount into the account. Note that interest will be paid off before the balance.
+- `loc.progressDays(10)` - Progresses days by the chosen number. If the simulation reaches the end of a period, interest calculations are automatically calculated and the transactions of that period are pushed to the account history.
+- `loc.currentDay()` - Prints the current day of the simulation and the remaining days before the end of the period.
+- `loc.paymentDue()` - Prints the current payment due (balance and interest).
+- `loc.creditRemaining()` - Prints the remaining available credit. Note that a negative available credit is possible if interest accumulates to the point where the balance and interest are higher than the credit.
 
 ###Notes and assumptions
+- I assume that interest is calculated and payment is due on the first day of the next billing period.
+- I also assume that if two or more transactions are made on the same day, that interest only accumulates on the last principal balance that passes over into the next day.
+- I made my first day be 0 in order for the example scenarios to work (since there needs to be 15 days from the first day to day 15 for the interest calculation to be correct).
