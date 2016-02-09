@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
-def findFactors(numbers) 
-    # Outputs each integer in the array and all the other integers 
+def findFactors(numbers)
+    # Outputs each integer in the array and all the other integers
     # in the array that are factors of the first integer.
     cache = factorToCache(numbers, Hash.new)
     output = "{"
@@ -13,8 +13,8 @@ end
 def factorToCache(array, cache)
     # Loop through array and first see if the value appears in the cache
     # If it doesn't pairwise check with every other value in the array
-    # Assumptions:  That duplicates in the array and the factors are skipped 
-    #               In order to save computation time. 
+    # Assumptions:  That duplicates in the array and the factors are skipped
+    #               In order to save computation time.
     for i in 0...array.length
         value = array[i]
         if !cache.has_value?(value)
