@@ -4,8 +4,8 @@
 class lineOfCredit(object):
     """
     Line of credit class: Simulates a line of credit where you have an apr
-    a line of credit and you can make payments and withdrawls. A history of your
-    transactions are kept, interest is calculated at the end of each thirty
+    a line of credit and you can make payments and withdrawals. A history of
+    your transactions are kept, interest is calculated at the end of each thirty
     day period
     Attributes:
         apr             Apr for this loc
@@ -14,7 +14,7 @@ class lineOfCredit(object):
         interest        Current interest due
         carryover       The carryover balance between months
         day             Current day, starts at zero
-        transactions    Payments and withdrawls this month. A list of tuples:
+        transactions    Payments and withdrawals this month. A list of tuples:
                         tuple[0] = day of transaction
                         tuple[1] = transaction amount
                         tuple[2] = balance after transaction
@@ -67,10 +67,10 @@ class lineOfCredit(object):
         elif (self.truncate(payment) != payment):
             raise ValueError("You cannot pay fractions of cents")
         elif (payment > self.balance + self.interest):
-            raise ValueError("You're payment is higher than your current\
-             balance and interest")
+            raise ValueError("You're payment is higher than your current "
+             "balance and interest")
         elif (payment >= self.balance):
-            self.balance -= (payment - self.balance)
+            self.interest -= (payment - self.balance)
             self.balance = 0
         else:
             self.balance -= payment
@@ -84,23 +84,23 @@ class lineOfCredit(object):
         self.balance = 0
         self.interest = 0
 
-    def makeWithdrawl(self, withdrawl):
+    def makeWithdrawal(self, withdrawal):
         """
         Draws money from the credit line. Will throw a ValueError if the
-        withdrawl is more than the available credit
+        withdrawal is more than the available credit
         Assumption: That the current interest counts against the available
                     credit
         """
-        if (withdrawl < 0):
+        if (withdrawal < 0):
             raise ValueError("You're withdrwal cannot be negative")
-        elif (self.truncate(withdrawl) != withdrawl):
+        elif (self.truncate(withdrawal) != withdrawal):
             raise ValueError("You cannot withdraw fractions of cents")
-        elif (withdrawl > self.credit - (self.balance + self.interest)):
-            raise ValueError("You cannot withdraw that much. It would exceed\
-                your available credit")
+        elif (withdrawal > self.credit - (self.balance + self.interest)):
+            raise ValueError("You cannot withdraw that much. It would exceed "
+                "your available credit")
         else:
-            self.balance += withdrawl
-        transaction = (self.day, withdrawl, self.balance)
+            self.balance += withdrawal
+        transaction = (self.day, withdrawal, self.balance)
         self.transactions.append(transaction)
 
     def creditRemaining(self):
@@ -155,10 +155,6 @@ class lineOfCredit(object):
 
         if (self.balance > 0):
             self.carryover = self.balance
-
-        # print "Interest accrued this month: " + str(period_interest)
-        # print "Current payment due: " + str(self.balance +
-        #    self.interestinterest)
 
     def paymentDue(self):
         """
