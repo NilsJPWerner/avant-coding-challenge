@@ -6,7 +6,8 @@ def findFactors(numbers)
     cache = factorToCache(numbers, Hash.new)
     output = "{"
     cache.each {|key, factors| output = output + "#{key}: #{factors}, "}
-    puts output + "}"
+    output += "}"
+    puts output
 end
 
 
@@ -28,19 +29,22 @@ def factorToCache(array, cache)
     return cache
 end
 
-def pairwiseCheck(pair1, pair2, factors, cache)
-    # Check to see if pair2 is a factor of pair 1
-    # If it is see if pair2 exists in the cache.
-    # If so combine the cached pair2 factors with the pair 1 factors
-    # Then (regardless of previous if) add pair2 to factors
-    if (pair1 != pair2) and !(factors.include?(pair2)) and (pair1 % pair2 == 0)
-        if cache.has_value?(pair2)
-            factors = factors | cache[pair2]
+def pairwiseCheck(value, pos_factor, factors, cache)
+    # Check to see if pos_factor is a factor of pair 1
+    # If it is see if pos_factor exists in the cache.
+    # If so combine the cached pos_factor factors with the pair 1 factors
+    # Then (regardless of previous if) add pos_factor to factors
+    # Note that and short circuits so it wont have to evaluate the factor if
+    # its found to be false earlier.
+    if (value != pos_factor) and !(factors.include?(pos_factor)) and (value %
+        pos_factor == 0)
+        if cache.has_value?(pos_factor)
+            factors = factors | cache[pos_factor]
         end
-        factors.push(pair2)
+        factors.push(pos_factor)
     end
 end
 
 
-findFactors([10, 5, 2, 20])
-findFactors([6, 7, 12, 123, 23, 65, 5, 12, 512, 126, 4, 7, 23, 5, 6])
+# findFactors([10, 5, 2, 20])
+# findFactors([6, 7, 12, 123, 23, 65, 5, 12, 512, 126, 4, 7, 23, 5, 6])
