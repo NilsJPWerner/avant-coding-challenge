@@ -2,20 +2,31 @@
 
 ## Factors
 
-This is the first time I've written ruby, so I apologize if I missed some style errors.
+This is the first time I've written ruby, so I apologize if I missed some style errors. I made the assumption that I do not want duplicates in the output both in the array and in the factor arrays.
 
 #### Question 1
 
+`What if you were to cache the calculation, for example in the file system.  What would an example implementation of the cache look like? By cache I mean, given an array input, skip the calculation of the output if you have already calculated the output at least once already.`
+
 I currently have a caching system in my implementation that skips finding factors for values already computed. If it finds a factor it also checks to see if that factor is in the cache and if so adds the (non-duplicate) factors of that factor to the values array of factors so that it can leverage the precomputed factors of factors (since they will all be factors of the original value as well).
 
-Filesystem?
-
+To implement a larger file system caching model I would on program termination do a `YAML::dump` into a new or existing file, of the hashed output and input. On the next run the program would be able to open this file with `YAML::load`, hash the new input and find whether the hash has already been calculated, and if so just print the corresponding precomputed output.
 
 #### Question 2
 
+`What is the performance of your caching implementation?  Is there any way to make it more performant.`
+
 - The simplest and least efficient implementation of this problem would be just to loop through all the values and test each value pairwise resulting in o(n^2) time complexity. My implementation while still effectively looping through all the values, skips values already in the cache and include the factors of factors already calculated.
 - If we know the average maximum value of inputs, we could precompute factors up to this number (if space is not a huge issue) and put them in a lookup table and then pick out the factors that appear in the array and the table. This would eliminate the need to do any factorization in real time, as the only computation would be lookups in the table and the array. However if this table is too large to load into memory, the time spent fetching the values from disk would outweigh the benefits of not having to factorize.
+- One could paralelize the program and run factor finding on multiple threads. Some care would have to be taken to make sure the results get combined correctly in the end so that there are no duplicates and that excessive duplication of work isn't done.
+- In regards to the file system caching of inputs and outputs, I would make sure that the cache is stored in the smallest possible form (maybe even storing it in binary represenation using something like Marshal) and on the fastest possible place. The main problem facing this kind of cache is that it might be slower to actually open up and load the cache than just computing the answer again, especially if the cache is stored on disk. 
 
+### Question 3
+
+`What if you wanted to reverse the functionality. Would this change your caching algorithim?`
+
+- The file system caching algorithm would not have to change since it would only store input and output. 
+- The in program caching solution in the implementation would have to be changed slightly to check for multiples rather than factors but the code changes would be minimal, (you would only need to switch `pos_factor % value == 0` to `value % pos_factor == 0`
 
 ## Line of Credit
 
