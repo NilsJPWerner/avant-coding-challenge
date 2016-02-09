@@ -33,8 +33,8 @@ class lineOfCredit(object):
 
     def progressDays(self, days):
         """
-        Progresses days of the loc simulation. If the function reaches or passes a
-        period end, it will run periodEnd
+        Progresses days of the loc simulation. If the function reaches or passes
+        a period end, it will run periodEnd
         """
         if (days <= 0):
             raise ValueError("Your days cannot be negative or zero")
@@ -164,7 +164,9 @@ class lineOfCredit(object):
         """
         Prints the current payment due (interest and balance)
         """
-        print "Current payment due: " + str(self.interest + self.balance)
+        print "Current total payment due: " + str(self.interest + self.balance)
+        print "Interest: " + str(self.interest)
+        print "Balance: " + str(self.balance)
 
     def getPastTransaction(self, day):
         """
