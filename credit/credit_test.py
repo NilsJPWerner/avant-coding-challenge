@@ -59,6 +59,10 @@ class lineOfCreditTest(unittest.TestCase):
         loc = lineOfCredit(0.35, 1000)
         self.assertRaises(ValueError, loc.progressDays, -1)
 
+    def test_progress_days_zero(self):
+        loc = lineOfCredit(0.35, 1000)
+        self.assertRaises(ValueError, loc.progressDays, 0)
+
     def test_progress_days_float(self):
         loc = lineOfCredit(0.35, 1000)
         self.assertRaises(ValueError, loc.progressDays, 0.1)
